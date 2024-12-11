@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Res, IsntEmpty, Alert, Responses } from "../../Components/GlobalComponents";
-import axios from 'axios';
+import axios, { HttpStatusCode } from 'axios';
 import './LoginStyles.css';
 import Logo from '../PageComponents/Logo.png';
 import { useNavigate } from "react-router-dom";
@@ -10,12 +10,29 @@ function Login()
 {
     const Navigate = useNavigate();  
 
-/*     useEffect(() => {
-        const UserID = localStorage.getItem('UserToken');
+    useEffect(() => {
+        
+         
+        const ValidarInicio = async () => {
+                
+            const UserToken = localStorage.getItem('UserToken');
 
-        if(UserID)
+            if(UserToken)
+            {
+                axios
+                .get('https://localhost:7233/SignInControllers//Watch',{ headers: { Authorization: `Bearer ${UserToken}` }})
+                .then(({ data }) => { console.log(data);
+                
+                                        if(data.success && data.message === "SIC") 
+                                        { Navigate('/HomePortal');} 
+                                    })
+                .catch(( error ) => { if(error.response.status === 401){localStorage.removeItem('UserToken')}  });
+            }
+        }
 
-    }) */
+        ValidarInicio();
+
+    });
 
     const User = useRef(null);
     const [FocusUser, SetFocusUser] = useState(false);
@@ -38,12 +55,12 @@ function Login()
         if (IsntEmpty(UserValue, PassValue)) 
         {
             axios
-              .get(`https://localhost:7233/api/SignUp/Try/${UserValue}&${PassValue}`)
-              .then(({ data }) => { 
+            .post('https://localhost:7233/SignInControllers/Try',{email: UserValue, clave: PassValue})
+            .then(({ data }) => { 
                                     if(Responses(data,{...Res,ECI: 'Usuario o contrasena incorrecta', SIC: 'Sesion iniciada correctamente'}))
-                                    {localStorage.setItem('UserToken','Gil0880');  Navigate('/HomePortal'); }
+                                    {localStorage.setItem('UserToken',data.token);  Navigate('/HomePortal'); }
                                   })
-              .catch(() => { Alert(Res.EELS,Res.E,2000); });
+            .catch(() => { Alert(Res.EELS,Res.E,2000); });
         } 
         else { Alert(Res.CTC, Res.W, 2000); }
         
@@ -68,10 +85,9 @@ function Login()
                             ref={User}
                             onFocus={HandlerFocus}
                             onBlur={HandlerBlur}
-                            type="User" 
+                            autoComplete="off"
                             className="form-style" 
                             maxLength="50" 
-                            autoComplete="User"
                         />
                     </div>
        
@@ -86,9 +102,10 @@ function Login()
                             ref={pass}
                             onFocus={HandlerFocus}
                             onBlur={HandlerBlur}
+                            onChange={HandlerFocus}
                             maxLength="20" 
                             className="form-style" 
-                            autoComplete="current-password"
+                            autoComplete="off"
                         />
                     </div>
  

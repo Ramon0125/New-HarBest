@@ -4,16 +4,28 @@ import './Header.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useNavigate } from "react-router-dom";
-import { Alert} from "../../../Components/GlobalComponents";
+import Swal from "sweetalert2";
+import { Alert } from "../../../Components/GlobalComponents";
 
  export const Header = () => {
 
     const Navigate = useNavigate();
 
-    const CerrarSesion = () => {
-        Alert('Sesion cerrada correctamente','success',2000);
-        localStorage.removeItem('UserToken');
-        Navigate('/');
+    const CerrarSesion = () => 
+    {
+        Swal.fire({
+        showCancelButton: true,
+        icon: "warning",
+        text: "¿Está seguro de que desea cerrar sesión?",
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#dc3545',
+        confirmButtonText: 'Si',
+        cancelButtonText: 'Cancelar',
+        preConfirm: () => { 
+                            localStorage.removeItem('UserToken'); 
+                            Alert('Sesion cerrada correctamente','success',2000); 
+                            Navigate('/'); 
+                          }});
     }
 
     return (
