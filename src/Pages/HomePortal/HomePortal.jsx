@@ -10,6 +10,8 @@ export default function HomePortal() {
 
     <Header />
 
+    <Ver />
+
     <div id='ContainerOptions' className='TAC'>
         <h1>Seleccione el modulo</h1>
 

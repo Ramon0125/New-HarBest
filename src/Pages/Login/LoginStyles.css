@@ -103,9 +103,9 @@ div.form-item label.formLabel {
   --bs-form-check-bg-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
 }
 
-input[type=submit].login,
+button[type=submit].login,
 a.login {
-  width: 100%;
+  width: 97%;
   height: 46px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
@@ -114,17 +114,17 @@ a.login {
   border: none;
   color: var(--buttontxt);
   font-size: 16px;
-  margin-top: 14px;
+  margin-top: 7px;
 }
 
-input[type=submit].login:hover,
+button[type=submit].login:hover,
 a.login:hover {
   background-color: var(--color);
   color: #fff;
   cursor: pointer;
 }
 
-input[type=submit].login:focus,
+button[type=submit].login:focus,
 a.login:focus {
   outline: none;
 }

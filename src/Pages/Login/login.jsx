@@ -20,7 +20,7 @@ function Login()
             if(UserToken)
             {
                 axios
-                .get('https://localhost:7233/SignInControllers//Watch',{ headers: { Authorization: `Bearer ${UserToken}` }})
+                .get('https://localhost:7233/SignIn/Watch',{ headers: { Authorization: `Bearer ${UserToken}` }})
                 .then(({ data }) => { console.log(data);
                 
                                         if(data.success && data.message === "SIC") 
@@ -45,17 +45,22 @@ function Login()
     const HandlerFocus = (event) => { event.target.id === 'User' ? SetFocusUser(true) : SetFocusPass(true);}
     const HandleCheck = () => { SetPassType(PassType === 'password' ? 'text' : 'password')}
 
+    const [Loading,SetLoading] = useState(false);
+
     const SignIn = async (event) => {  
         
         event.preventDefault();
 
+        SetLoading(true);
+
         const UserValue = User.current.value;
         const PassValue = pass.current.value;
 
+        
         if (IsntEmpty(UserValue, PassValue)) 
         {
             axios
-            .post('https://localhost:7233/SignInControllers/Try',{email: UserValue, clave: PassValue})
+            .post('https://localhost:7233/SignIn/Try',{email: UserValue, clave: PassValue})
             .then(({ data }) => { 
                                     if(Responses(data,{...Res,ECI: 'Usuario o contrasena incorrecta', SIC: 'Sesion iniciada correctamente'}))
                                     {localStorage.setItem('UserToken',data.token);  Navigate('/HomePortal'); }
@@ -63,6 +68,8 @@ function Login()
             .catch(() => { Alert(Res.EELS,Res.E,2000); });
         } 
         else { Alert(Res.CTC, Res.W, 2000); }
+
+        SetLoading(false);
         
     }
 
@@ -122,12 +129,14 @@ function Login()
                     </div>
 
                     <div className="form-item">
-                        <input 
+                        <button
                             type="submit" 
                             className="login pull-right" 
                             value="Iniciar Sesión" 
                             onClick={SignIn}
-                        />    
+                        >
+                            <span class={ Loading ? "spinner-border spinner-border-sm" : ""} role="status" aria-hidden="true">Iniciar Sesion</span>
+                        </button>    
                     </div>
                 </form>
             </div>

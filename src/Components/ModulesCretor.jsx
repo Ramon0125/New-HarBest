@@ -1,15 +1,19 @@
-import { jwtDecode } from "jwt-decode";
-import { Navigate } from "react-router-dom";
+import axios from "axios";
+
+/* import { jwtDecode } from "jwt-decode";
+import { Navigate } from "react-router-dom"; */
 
 export default function Ver() {
 const UserToken = localStorage.getItem('UserToken');
 
-if(!UserToken)
-{         
-    Alert('Usted no esta logeado',Res.W,3000);
-    return <Navigate to={"/"} replace />;
+if(UserToken)
+{
+    axios
+    .get('https://localhost:7233/Modules/GetModules',{ headers: { Authorization: `Bearer ${UserToken}` }})
+    .then(({ data }) => { console.log(data); })
+    .catch(( error ) => { if(error.response.status === 401){localStorage.removeItem('UserToken')}  });
 }
-
+/* 
 const decoded = jwtDecode(UserToken);
 
 // Accede a los datos de los claims
@@ -23,9 +27,9 @@ console.log("Role:", role); // "ADMIN"
 console.log("Email:", email); // "prueba1@gmail.com"
 console.log("Name:", name); // "PRUEBA"
 console.log("User ID:", userId); // "3b238a9c-f3a4-4921-9571-640251e6b0fe"
-console.log("Surname:", surname); // "1"
+console.log("Surname:", surname); // "1" */
 
-return(
+/* return(
         <div className="col-md-4 cp">
             <div className="panel panel-default">
                 <div className="panel-body">
@@ -35,6 +39,6 @@ return(
                 </div>
             </div>
         </div>
-)
+) */
 
 }
