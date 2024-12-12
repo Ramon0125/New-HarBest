@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Alert } from "../../../Components/GlobalComponents";
 
- export const Header = () => {
+ export const Header = ({ children }) => {
 
     const Navigate = useNavigate();
 
@@ -36,6 +36,8 @@ import { Alert } from "../../../Components/GlobalComponents";
                     <span className="d-none d-lg-block">HarBest Cloud</span>
                 </a>
             </div>
+
+            {children}
 
             <div id="Div2" className="cp d-flex align-items-center justify-content-between">
                 <a onClick={CerrarSesion}> <i className="bi bi-box-arrow-right"></i>&nbsp; Cerrar Sesión &nbsp;</a>

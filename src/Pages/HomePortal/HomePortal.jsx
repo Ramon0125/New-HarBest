@@ -1,6 +1,6 @@
 import './HomePortalStyles.css';
 import { Header } from '../PageComponents/Header/Header';
-import Ver from '../../Components/ModulesCretor';
+import ModulesCreator from '../../Components/ModulesCreator';
 
 export default function HomePortal() {
   
@@ -10,12 +10,12 @@ export default function HomePortal() {
 
     <Header />
 
-    <Ver />
-
     <div id='ContainerOptions' className='TAC'>
         <h1>Seleccione el modulo</h1>
 
         <div className="row">
+
+          <ModulesCreator />
 
           <div className="col-md-4">
             <div className="panel panel-default">

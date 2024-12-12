@@ -9,13 +9,14 @@ font-display: swap;
 --boxbackground: #fffffe;
 --text: #475d5b;
 --buttontxt: #f2f7f5;
+--fuente: "HelveticaNeue", "Arial", sans-serif;
 }
 
 body 
 {
   -o-background-size: cover;
   background-size: cover;
-  font-family: "HelveticaNeue", "Arial", sans-serif;
+  font-family: var(--fuente);
   user-select: none;
   background-color: var(--background)
 }

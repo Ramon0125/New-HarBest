@@ -21,8 +21,7 @@ function Login()
             {
                 axios
                 .get('https://localhost:7233/SignIn/Watch',{ headers: { Authorization: `Bearer ${UserToken}` }})
-                .then(({ data }) => { console.log(data);
-                
+                .then(({ data }) => { 
                                         if(data.success && data.message === "SIC") 
                                         { Navigate('/HomePortal');} 
                                     })
@@ -135,7 +134,7 @@ function Login()
                             value="Iniciar Sesión" 
                             onClick={SignIn}
                         >
-                            <span class={ Loading ? "spinner-border spinner-border-sm" : ""} role="status" aria-hidden="true">Iniciar Sesion</span>
+                            <span className={ Loading ? "spinner-border spinner-border-sm" : ""} role="status" aria-hidden="true">Iniciar Sesion</span>
                         </button>    
                     </div>
                 </form>
