@@ -33,12 +33,11 @@ font-family: var(--Fuente);
 }
     
 .header {
-z-index: 996;
-position: absolute;
+position: relative;
+z-index: 999;
 transition: all 0.5s;
 height: 60px;
 box-shadow: 0px 2px 20px var(--color);
 background-color: white;
 padding-left: 20px;
-}
-    
+}   
