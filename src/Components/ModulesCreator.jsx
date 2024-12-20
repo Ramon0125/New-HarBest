@@ -1,21 +1,29 @@
 import axios from "axios";
-import { Res, Responses } from "./GlobalComponents";
+import { Alert, Res, Responses } from "./GlobalComponents";
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
-
 export default function ModulesCreator() {
     const [modules, setModules] = useState([]);
-    const UserToken = localStorage.getItem('UserToken');
     const Navigate = useNavigate();
+    const UserToken = localStorage.getItem('UserToken');
 
     useEffect(() => {
         axios
             .get('https://localhost:7233/Modules/GetModules', { headers: { Authorization: `Bearer ${UserToken}` } })
             .then(({ data }) => { if (!data.success) { return Responses(data, Res); } setModules(data.modulos); })
-            .catch((error) => { if (error.response && error.response.status === 401) { localStorage.removeItem('UserToken'); } });
-    }, [UserToken]);
-    
+            .catch((error) => { 
+                                if (error.response && error.response.status === 401) 
+                                { localStorage.removeItem('UserToken'); }
+
+                                else { Alert(Res.EELP,Res.E,2000); }
+
+                            
+                            
+                            });
+    },[]);
+
+
     return (     
         <>{
             modules.length > 0 ? (             

@@ -33,7 +33,7 @@ font-family: var(--Fuente);
 }
     
 .header {
-position: relative;
+position: sticky !important;
 z-index: 999;
 transition: all 0.5s;
 height: 60px;

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Res, IsntEmpty, Alert, Responses } from "../../Components/GlobalComponents";
-import axios, { HttpStatusCode } from 'axios';
+import axios from 'axios';
 import './LoginStyles.css';
 import Logo from '../PageComponents/Logo.png';
 import { useNavigate } from "react-router-dom";
@@ -9,13 +9,9 @@ import { useNavigate } from "react-router-dom";
 function Login() 
 {
     const Navigate = useNavigate();  
+    const UserToken = localStorage.getItem('UserToken');
 
     useEffect(() => {
-        
-         
-        const ValidarInicio = async () => {
-                
-            const UserToken = localStorage.getItem('UserToken');
 
             if(UserToken)
             {
@@ -25,12 +21,11 @@ function Login()
                                         if(data.success && data.message === "SIC") 
                                         { Navigate('/HomePortal');} 
                                     })
-                .catch(( error ) => { if(error.response.status === 401){localStorage.removeItem('UserToken')}  });
+                .catch(( error ) => {   
+                                        if(error.response && error.response.status === 401) {localStorage.removeItem('UserToken')}  
+                                        else {Alert(Res.EELP,Res.E,2000)} 
+                                    });
             }
-        }
-
-        ValidarInicio();
-
     });
 
     const User = useRef(null);
@@ -38,38 +33,38 @@ function Login()
 
     const pass = useRef(null);
     const [FocusPass, SetFocusPass] = useState(false);
-    const [PassType, SetPassType] = useState('password')
 
-    const HandlerBlur = (event) => {  event.target.id === 'User' ? SetFocusUser(IsntEmpty(User.current.value)) : SetFocusPass(IsntEmpty(pass.current.value)); }
-    const HandlerFocus = (event) => { event.target.id === 'User' ? SetFocusUser(true) : SetFocusPass(true);}
-    const HandleCheck = () => { SetPassType(PassType === 'password' ? 'text' : 'password')}
+    const [CheckState,SetCheckState] = useState(false);
 
     const [Loading,SetLoading] = useState(false);
 
-    const SignIn = async (event) => {  
-        
-        event.preventDefault();
-
-        SetLoading(true);
+    const SignIn = (event) => {  event.preventDefault(); SetLoading(true);
 
         const UserValue = User.current.value;
         const PassValue = pass.current.value;
 
-        
         if (IsntEmpty(UserValue, PassValue)) 
         {
             axios
             .post('https://localhost:7233/SignIn/Try',{email: UserValue, clave: PassValue})
             .then(({ data }) => { 
                                     if(Responses(data,{...Res,ECI: 'Usuario o contrasena incorrecta', SIC: 'Sesion iniciada correctamente'}))
-                                    {localStorage.setItem('UserToken',data.token);  Navigate('/HomePortal'); }
-                                  })
-            .catch(() => { Alert(Res.EELS,Res.E,2000); });
-        } 
-        else { Alert(Res.CTC, Res.W, 2000); }
+                                    {
+                                        const { apellidoUsuario: UserSurName, emailUsuario: UserEmail, nombreUsuario: UserName} = data.userInfo;
+                                        
+                                        localStorage.setItem('UserToken', data.token);  
+                                        localStorage.setItem('UserSurName', UserSurName);
+                                        localStorage.setItem('UserEmail', UserEmail);
+                                        localStorage.setItem('UserName', UserName);
 
-        SetLoading(false);
-        
+                                        Navigate('/HomePortal'); 
+                                    }
+
+                                    SetLoading(false);
+            })
+            .catch(() => { Alert(Res.EELS,Res.E,2000); SetLoading(false);});
+        }
+        else { Alert(Res.CTC, Res.W, 2000); SetLoading(false);}
     }
 
     return (
@@ -89,8 +84,8 @@ function Login()
                         <input 
                             id='User'
                             ref={User}
-                            onFocus={HandlerFocus}
-                            onBlur={HandlerBlur}
+                            onFocus={() => {SetFocusUser(true)}}
+                            onBlur={() => {SetFocusUser(IsntEmpty(User.current.value))}}
                             autoComplete="off"
                             className="form-style" 
                             maxLength="50" 
@@ -104,11 +99,10 @@ function Login()
 
                         <input 
                             id="password" 
-                            type={PassType} 
+                            type={CheckState ? "text" : "password"} 
                             ref={pass}
-                            onFocus={HandlerFocus}
-                            onBlur={HandlerBlur}
-                            onChange={HandlerFocus}
+                            onFocus={() => {SetFocusPass(true)}}
+                            onBlur={() => {SetFocusPass(IsntEmpty(pass.current.value))}}
                             maxLength="20" 
                             className="form-style" 
                             autoComplete="off"
@@ -120,7 +114,8 @@ function Login()
                             id="Visor" 
                             className="form-check-input" 
                             type="checkbox" 
-                            onClick={HandleCheck} 
+                            onChange={() => {SetCheckState(!CheckState)}} 
+                            checked={CheckState}
                         />
 
                         <label htmlFor="Visor" className="cp"> Mostrar contraseña </label>
@@ -133,8 +128,9 @@ function Login()
                             className="login pull-right" 
                             value="Iniciar Sesión" 
                             onClick={SignIn}
+                            disabled={Loading}
                         >
-                            <span className={ Loading ? "spinner-border spinner-border-sm" : ""} role="status" aria-hidden="true">Iniciar Sesion</span>
+                        <span> { !Loading ? "Iniciar Sesion" : "Cargando... ◷" } </span>
                         </button>    
                     </div>
                 </form>

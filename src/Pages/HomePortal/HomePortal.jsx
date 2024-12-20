@@ -1,6 +1,6 @@
-import './HomePortalStyles.css';
 import { Header } from '../PageComponents/Header/Header';
 import ModulesCreator from '../../Components/ModulesCreator';
+import './HomePortalStyles.css';
 
 export default function HomePortal() {
   

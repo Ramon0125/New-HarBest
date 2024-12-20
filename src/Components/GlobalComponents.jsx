@@ -1,4 +1,3 @@
-import React, { createContext, useContext, useState } from 'react';
 import Swal from "sweetalert2";
 
 
@@ -24,7 +23,8 @@ W: 'warning',
 S: 'success',
 E: 'error',
 CTC: 'Complete todos los campos',
-EELS: 'Error en la solicitud'
+EELS: 'Error en la solicitud',
+EELP: 'Error en la pagina'
 }
 
 export function Responses(data,text)
@@ -39,3 +39,4 @@ switch (resp)
 
 return data.success == true;
 }
+

@@ -1,0 +1,9 @@
+#Div2 { margin-inline-start: unset !important; }
+
+#User
+{
+    margin-inline-start: auto;
+    margin-right: 25px;
+}
+
+#User a i { margin-right: 5px; }

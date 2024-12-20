@@ -6,19 +6,74 @@
 
 .header
 {
-  width: 98.5% !important;
+  width: 100% !important;
   position: fixed !important;
 }
 
-#IG2.input-group
-{
-  margin-left: 0px !important;
+.header #Div2 {
+  margin-right: 2%;
+  margin-inline-start: auto;
 }
 
-.input-group /* Si */ {
-    width: 45% !important;
+
+/* MAIN SECTION */
+
+#main {
+  width: 88.3%;
+  position: fixed;
+  margin-left: 285px;
+  background-color: white;
+  padding: 0px 4px;
+  padding-bottom: 0px;
+  transition: all 0.3s;
+  overflow-y: auto !important;
+  scrollbar-width: thin;
+  scrollbar-color: #aab7cf white;
+  top: 60px;
+  left: 4px;
+  bottom: 0;
+}
+
+@media  (max-width: 1024px)
+{
+  #main 
+  { 
+    width: 70.8% !important;
+  } 
+}
+
+@media (min-width: 1025px) and (max-width: 1440px)
+{
+  #main.SidebarHide
+  {
+    margin-left: 0px;
+    width: 99.1%;
+  }
+
+  #main 
+  { 
+    width: 78.2%;
+  } 
+}
+
+@media (min-width: 1441px) and (max-width: 2559px)
+{
+  #main 
+  { 
+    width: 84.1% !important;
+  } 
+}
+
+.input-group.input-group-head/* Si */ {
+    width: 45%;
     margin-left: 13%;
     margin-bottom: 0%;
+}
+
+
+#DivOptions .input-group{
+  width: 40%;
+
 }
 
 .header .toggle-sidebar-btn /* Si */ {
@@ -31,29 +86,23 @@
 .sidebar /* Si */ {
     position: fixed;
     top: 60px;
-    left: 0;
     bottom: 0;
+    left: 0px;
     width: 243px;
-    transition: all 0.3s;
     padding: 20px;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #aab7cf transparent;
     box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
     background-color:var(--boxbackground);
+    transition: transform 0.3s ease;
 }
-                
-@media (max-width: 1199px) {
-.toggle-sidebar .checkbox {width: 25px;}
 
-.toggle-sidebar .sidebar { left: -306px;}
+.sidebar.SidebarHide
+{
+  transform: translateX(-290px);
 }
-        
-@media (min-width: 1024px) {
- .toggle-sidebar #main, .toggle-sidebar #footer { margin-left: 0; }
- 
- .toggle-sidebar .sidebar { left: -306px; }
-}
+
         
 .sidebar-nav /* si */ {
     user-select: none;
@@ -80,8 +129,6 @@
         
 .sidebar-nav .nav-link /*Si*/
 {
-  display: flex;
-  align-items: center;
   font-size: 17px;
   font-weight: 600;
   font-family: var(--fuente);
@@ -104,6 +151,7 @@
         
 .sidebar-nav .nav-link:hover,
 .sidebar-nav .nav-link:hover i {
+  color: var(--color);
   background: var(--boxHover);
   cursor: pointer;
 }
@@ -183,23 +231,6 @@
 
 .divioer{margin: -2px 0px 12px -13px;}
 
-#main {
-  width: 78%;
-  position: fixed;
-  background-color: white;
-  padding: 0px 6px;
-  padding-bottom: 0px;
-  transition: all 0.3s;
-  overflow-y: auto !important;
-  scrollbar-width: thin;
-  scrollbar-color: #aab7cf white;
-  top: 60px;
-  left: 0;
-  bottom: 0;
-}
-
-@media (min-width: 1024px) { #main { margin-left: 285px;} }
-
 #DivOptions
 {
   justify-content: space-between;
@@ -211,16 +242,25 @@
 
 #DivOptions .DOHeading
 {
-  color: black;
   font-size: 22px;
   margin-left: 0.3%;
-  margin-right: 2%;
 }
 
 #DivOptions span
 {
   font-size: 14px;
   text-transform: uppercase;
-  color: var(--sidebarhead);
+  color: var(--color);
   font-weight: bolder;
+}
+
+table thead tr th
+{
+background-color: var(--color) !important;
+color: var(--boxHover) !important;
+}
+
+.TAC
+{
+  text-align: center;
 }
