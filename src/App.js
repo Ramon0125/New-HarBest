@@ -18,7 +18,7 @@ function App() {
           <Route path='' element={< HomePortal />} />
         </Route>
 
-        <Route path='/ReceptsDocs' element={<ProtectedPage />}>
+        <Route path='/RecepDocs' element={<ProtectedPage />}>
           <Route path='' element={< ReceptsDocs />} />
         </Route>
         

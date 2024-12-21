@@ -7,13 +7,19 @@ export function CasosFiscales()
 {
     const UserName = localStorage.getItem("UserName");
     const UserSurName = localStorage.getItem("UserSurName");
+    const UserToken = localStorage.getItem("UserToken");
 
     const [IsChecked,SetIsChecked] = useState(true);
 
+    const [CasosInc,SetCasosInc] = useState([]);
+
     useEffect(()=> {
-        /* axios
-        .get() */
-    });
+        axios
+        .get('https://localhost:7233/CasosFiscales/GetCasosFiscales', { headers: { Authorization: `Bearer ${UserToken}`}})
+        .then(({data}) => { data.forEach((Casos,index) => {SetCasosInc((CasosAnt) => ({...CasosAnt, [index]: Casos}))}) })
+        .catch(({error}) => {console.log(error);});     
+    },[UserToken]);
+
 
     return (<>
         <Header>
@@ -71,7 +77,24 @@ export function CasosFiscales()
                         </tr>
                     </thead>
 
-                    <tbody></tbody> 
+                    <tbody>
+                        <>{
+                            Object.entries(CasosInc).map(element => {
+                              
+                                return (
+                                    <tr>
+                                        <th>{element[1].codigo}</th>
+                                        <th>{element[1].cliente}</th>
+                                        <th>{element[1].fechaInicio}</th>
+                                        <th>{element[1].fechaVencimiento}</th>
+                                        <th>LOREN IMPSUM</th>
+                                        <th><a href="./">VER DETALLES</a></th>
+                                    </tr>
+                                )  
+                            })
+
+                        }</>
+                    </tbody> 
                 </table>
             </div>
         </main>   
